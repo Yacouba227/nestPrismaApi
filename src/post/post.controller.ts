@@ -7,9 +7,11 @@ import { UpdatePostDto } from './dto/update-post.dto';
 export class PostController {
   constructor(private readonly postService: PostService) {}
 
-  @Post()
-  create(@Body() createPostDto: CreatePostDto) {
+  @Post("/:userId")
+  create(@Param("userId")userId: string, @Body() createPostDto: CreatePostDto) {
     const {title, content} = createPostDto;
+    console.log(userId);
+    
     if(!title || !content){
       throw new BadRequestException('All filds required');
     }
@@ -19,7 +21,7 @@ export class PostController {
     if(typeof(content) != 'string'){
       throw new BadRequestException('title fields is string')
     }
-    return this.postService.create(createPostDto);
+    return this.postService.create(createPostDto, userId);
   }
 
   @Get()
@@ -32,9 +34,9 @@ export class PostController {
     return this.postService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
-    return this.postService.update(id, updatePostDto);
+  @Patch('/:id/:userId')
+  update(@Param('id') id: string, @Param("userId")userId: string, @Body() updatePostDto: UpdatePostDto) {
+    return this.postService.update(id, updatePostDto, userId);
   }
 
   @Delete(':id')

@@ -33,7 +33,7 @@ export class UsersService {
       where: { id },
     });
     if(!searchOne){
-      throw new NotFoundException(`User with id ${id} not found`)
+      throw new NotFoundException(`User with id ${id} not found fdfdfd`)
     }
     return searchOne;
   }
