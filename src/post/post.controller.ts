@@ -10,7 +10,7 @@ export class PostController {
   @Post("/:userId")
   create(@Param("userId")userId: string, @Body() createPostDto: CreatePostDto) {
     const {title, content} = createPostDto;
-    console.log(userId);
+    // console.log(userId);
     
     if(!title || !content){
       throw new BadRequestException('All filds required');
