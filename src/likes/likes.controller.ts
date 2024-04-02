@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException } from '@nestjs/common';
 import { LikesService } from './likes.service';
 import { CreateLikeDto } from './dto/create-like.dto';
 import { UpdateLikeDto } from './dto/update-like.dto';
@@ -7,9 +7,16 @@ import { UpdateLikeDto } from './dto/update-like.dto';
 export class LikesController {
   constructor(private readonly likesService: LikesService) {}
 
-  @Post()
-  create(@Body() createLikeDto: CreateLikeDto) {
-    return this.likesService.create(createLikeDto);
+  @Post("/:userId/:postId")
+  create(@Param("userId")userId: string, @Param("postId")postId: string, @Body() createLikeDto: CreateLikeDto) {
+    const {title} = createLikeDto; 
+    if(!title){
+      throw new BadRequestException('All filds required');
+    }
+    if(typeof(title) != 'string'){
+      throw new BadRequestException('content fields is string')
+    }
+    return this.likesService.create(createLikeDto, userId, postId);
   }
 
   @Get()
@@ -19,7 +26,7 @@ export class LikesController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.likesService.findOne(+id);
+    return this.likesService.findOne(id);
   }
 
   @Patch(':id')
@@ -29,6 +36,6 @@ export class LikesController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.likesService.remove(+id);
+    return this.likesService.remove(id);
   }
 }
