@@ -36,7 +36,6 @@ model Posts {
 // Pour les autres elements
 model Like {
   id  String  @id  @default(uuid())
-  title String
   createBy Users @relation(fields: [userId], references: [id])
   userId String
   post Posts  @relation(fields: [postId], references: [id])

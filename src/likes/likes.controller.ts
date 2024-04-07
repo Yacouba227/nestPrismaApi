@@ -9,13 +9,13 @@ export class LikesController {
 
   @Post("/:userId/:postId")
   create(@Param("userId")userId: string, @Param("postId")postId: string, @Body() createLikeDto: CreateLikeDto) {
-    const {title} = createLikeDto; 
-    if(!title){
-      throw new BadRequestException('All filds required');
-    }
-    if(typeof(title) != 'string'){
-      throw new BadRequestException('content fields is string')
-    }
+    // const {title} = createLikeDto; 
+    // if(!title){
+    //   throw new BadRequestException('All filds required');
+    // }
+    // if(typeof(title) != 'string'){
+    //   throw new BadRequestException('content fields is string')
+    // }
     return this.likesService.create(createLikeDto, userId, postId);
   }
 

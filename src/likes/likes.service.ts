@@ -12,10 +12,8 @@ export class LikesService {
   ) {}
   async create(createLikeDto: CreateLikeDto,userId: string, postId: string,) {
     // return 'This action adds a new like';
-    const { title } = createLikeDto;
     const likeCreated = await this.prisma.like.create({
       data: {
-        title: title,
         createBy: {
           connect: {
             id: userId,
@@ -28,7 +26,7 @@ export class LikesService {
         },
       },
     });
-    return likeCreated;
+    return {message: 'post liked successfully'};
   }
 
   findAll() {
